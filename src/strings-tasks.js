@@ -309,8 +309,15 @@ function containsSubstring(str, substring) {
  *   countVowels('aEiOu') => 5
  *   countVowels('XYZ') => 1
  */
-function countVowels(/* str */) {
-  throw new Error('Not implemented');
+function countVowels(str) {
+  const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
+  let result = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    if (vowels.includes(str[i])) {
+      result += 1;
+    }
+  }
+  return result;
 }
 
 /**
@@ -326,8 +333,15 @@ function countVowels(/* str */) {
  *   isPalindrome('apple') => false
  *   isPalindrome('No lemon, no melon') => true
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let strReverse = '';
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    strReverse += str[i];
+  }
+  return (
+    str.toLocaleLowerCase().replace(/[^a-z0-9]/g, '') ===
+    strReverse.toLocaleLowerCase().replace(/[^a-z0-9]/g, '')
+  );
 }
 
 /**
@@ -342,8 +356,15 @@ function isPalindrome(/* str */) {
  *   findLongestWord('A long and winding road') => 'winding'
  *   findLongestWord('No words here') => 'words'
  */
-function findLongestWord(/* sentence */) {
-  throw new Error('Not implemented');
+function findLongestWord(sentence) {
+  const masWords = sentence.split(' ');
+  let maxLengthWord = masWords[0];
+  for (let i = 1; i < masWords.length - 1; i += 1) {
+    if (masWords[i].length > maxLengthWord.length) {
+      maxLengthWord = masWords[i];
+    }
+  }
+  return maxLengthWord;
 }
 
 /**
@@ -356,8 +377,11 @@ function findLongestWord(/* sentence */) {
  *   reverseWords('Hello World') => 'olleH dlroW'
  *   reverseWords('The Quick Brown Fox') => 'ehT kciuQ nworB xoF'
  */
-function reverseWords(/* str */) {
-  throw new Error('Not implemented');
+function reverseWords(str) {
+  const result = str
+    .split(' ')
+    .map((word) => word.split('').reverse().join(''));
+  return result.join(' ');
 }
 
 /**
@@ -371,8 +395,14 @@ function reverseWords(/* str */) {
  *   invertCase('JavaScript is Fun') => 'jAVAsCRIPT IS fUN'
  *   invertCase('12345') => '12345'
  */
-function invertCase(/* str */) {
-  throw new Error('Not implemented');
+function invertCase(str) {
+  const result = str
+    .split('')
+    .map((el) =>
+      el === el.toLowerCase() ? el.toUpperCase() : el.toLowerCase()
+    )
+    .join('');
+  return result;
 }
 
 /**
@@ -388,8 +418,8 @@ function invertCase(/* str */) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -402,8 +432,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.slice(7, -1);
 }
 
 /**
@@ -417,8 +447,8 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.slice(1, -1);
 }
 
 /**
@@ -436,8 +466,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -456,9 +486,34 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const encodedChars = str.split('').map((char) => {
+    if (/[a-z]/gi.test(char)) {
+      const offset = char.toLocaleLowerCase() <= 'm' ? 13 : -13;
+      return String.fromCharCode(char.charCodeAt() + offset);
+    }
+    return char;
+  });
+  return encodedChars.join('');
 }
+// function encodeToRot13(str) {
+//   let result = '';
+//   for (let i = 0; i < str.length; i += 1) {
+//     if ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')) {
+//       if (
+//         (str[i] >= 'A' && str[i] <= 'M') ||
+//         (str[i] >= 'a' && str[i] <= 'm')
+//       ) {
+//         result += String.fromCharCode(str[i].charCodeAt() + 13);
+//       } else {
+//         result += String.fromCharCode(str[i].charCodeAt() - 13);
+//       }
+//     } else {
+//       result += str[i];
+//     }
+//   }
+//   return result;
+// }
 
 /**
  * Returns playid card id.
@@ -484,9 +539,120 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cardsMap = {
+    'A♣': 0,
+    '2♣': 1,
+    '3♣': 2,
+    '4♣': 3,
+    '5♣': 4,
+    '6♣': 5,
+    '7♣': 6,
+    '8♣': 7,
+    '9♣': 8,
+    '10♣': 9,
+    'J♣': 10,
+    'Q♣': 11,
+    'K♣': 12,
+    'A♦': 13,
+    '2♦': 14,
+    '3♦': 15,
+    '4♦': 16,
+    '5♦': 17,
+    '6♦': 18,
+    '7♦': 19,
+    '8♦': 20,
+    '9♦': 21,
+    '10♦': 22,
+    'J♦': 23,
+    'Q♦': 24,
+    'K♦': 25,
+    'A♥': 26,
+    '2♥': 27,
+    '3♥': 28,
+    '4♥': 29,
+    '5♥': 30,
+    '6♥': 31,
+    '7♥': 32,
+    '8♥': 33,
+    '9♥': 34,
+    '10♥': 35,
+    'J♥': 36,
+    'Q♥': 37,
+    'K♥': 38,
+    'A♠': 39,
+    '2♠': 40,
+    '3♠': 41,
+    '4♠': 42,
+    '5♠': 43,
+    '6♠': 44,
+    '7♠': 45,
+    '8♠': 46,
+    '9♠': 47,
+    '10♠': 48,
+    'J♠': 49,
+    'Q♠': 50,
+    'K♠': 51,
+  };
+  return cardsMap[value];
 }
+// function getCardId(value) {
+//   const cards = [
+//     'A♣',
+//     '2♣',
+//     '3♣',
+//     '4♣',
+//     '5♣',
+//     '6♣',
+//     '7♣',
+//     '8♣',
+//     '9♣',
+//     '10♣',
+//     'J♣',
+//     'Q♣',
+//     'K♣',
+//     'A♦',
+//     '2♦',
+//     '3♦',
+//     '4♦',
+//     '5♦',
+//     '6♦',
+//     '7♦',
+//     '8♦',
+//     '9♦',
+//     '10♦',
+//     'J♦',
+//     'Q♦',
+//     'K♦',
+//     'A♥',
+//     '2♥',
+//     '3♥',
+//     '4♥',
+//     '5♥',
+//     '6♥',
+//     '7♥',
+//     '8♥',
+//     '9♥',
+//     '10♥',
+//     'J♥',
+//     'Q♥',
+//     'K♥',
+//     'A♠',
+//     '2♠',
+//     '3♠',
+//     '4♠',
+//     '5♠',
+//     '6♠',
+//     '7♠',
+//     '8♠',
+//     '9♠',
+//     '10♠',
+//     'J♠',
+//     'Q♠',
+//     'K♠',
+//   ];
+//   return cards.indexOf(value);
+// }
 
 module.exports = {
   getStringLength,
